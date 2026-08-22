@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trái Tim Tương Tác - AN</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0b0b12;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      cursor: pointer; /* Cho biết có thể tương tác */
+    }
+
+    .heart-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Tạo hình trái tim bằng CSS */
+    .heart {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      background-color: #ff2a5f;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 40px #ff2a5f, 0 0 80px #ff2a5f;
+      animation: heartbeat 1.2s infinite ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background-color: #ff2a5f;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -70px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 70px;
+      top: 0;
+    }
+
+    /* Hiệu ứng nhịp đập tim */
+    @keyframes heartbeat {
+      0% {
+        transform: rotate(-45deg) scale(1);
+      }
+      14% {
+        transform: rotate(-45deg) scale(1.2);
+      }
+      28% {
+        transform: rotate(-45deg) scale(1);
+      }
+      42% {
+        transform: rotate(-45deg) scale(1.2);
+      }
+      70% {
+        transform: rotate(-45deg) scale(1);
+      }
+    }
+
+    /* Dòng chữ ở trung tâm */
+    .text {
+      position: absolute;
+      z-index: 10;
+      color: #ffffff;
+      font-weight: 800;
+      pointer-events: none;
+      animation: textPulse 1.2s infinite ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Style riêng cho chữ AN */
+    .an-text {
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Style riêng cho chữ 'tớ xin lỗi' */
+    .apology-text {
+      font-size: 1.1rem; /* Nhỏ hơn để vừa */
+      letter-spacing: normal;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+      white-space: pre-wrap; /* Cho phép xuống dòng */
+      display: none; /* Ban đầu ẩn */
+    }
+
+    @keyframes textPulse {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.15); }
+      70% { transform: scale(1); }
+    }
+
+    /* Lớp trạng thái khi được nhấn */
+    .heart-container.clicked .heart {
+        animation: heartbeatActive 0.6s infinite ease-in-out; /* Đập nhanh hơn */
+    }
+
+    .heart-container.clicked .an-text {
+        display: none; /* Ẩn AN */
+    }
+
+    .heart-container.clicked .apology-text {
+        display: flex; /* Hiện tớ xin lỗi */
+    }
+
+    @keyframes heartbeatActive {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      30% { transform: rotate(-45deg) scale(1.3); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart-container" id="heartContainer">
+    <div class="heart"></div>
+    <div class="text">
+        <span class="an-text">AN</span>
+        <span class="apology-text">tớ xin lỗi</span>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('heartContainer');
+    
+    // Thêm sự kiện click cho container
+    container.addEventListener('click', () => {
+        // Kiểm tra xem đã click chưa, nếu chưa thì thêm class để thay đổi
+        if (!container.classList.contains('clicked')) {
+            container.classList.add('clicked');
+        }
+    });
+
+    // Thêm sự kiện chạm cho thiết bị di động
+    container.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Ngăn chặn hành vi mặc định
+        if (!container.classList.contains('clicked')) {
+            container.classList.add('clicked');
+        }
+    });
+  </script>
+
+</body>
+</html>
